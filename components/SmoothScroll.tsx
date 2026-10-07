@@ -1,0 +1,58 @@
+"use client";
+import { useEffect } from "react";
+import { usePathname } from "next/navigation";
+import Lenis from "lenis";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
+let lenis: Lenis | null = null;
+export const getLenis = () => lenis;
+
+// Lenis smooth scrolling + a global [data-reveal] scroll-in animation.
+export default function SmoothScroll() {
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.documentElement.classList.add("reduced");
+      return;
+    }
+    lenis = new Lenis({ lerp: 0.09, smoothWheel: true });
+    lenis.on("scroll", ScrollTrigger.update);
+    const tick = (t: number) => lenis?.raf(t * 1000);
+    gsap.ticker.add(tick);
+    gsap.ticker.lagSmoothing(0);
+    return () => {
+      gsap.ticker.remove(tick);
+      lenis?.destroy();
+      lenis = null;
+    };
+  }, []);
+
+  useEffect(() => {
+    lenis?.scrollTo(0, { immediate: true });
+    window.scrollTo(0, 0);
+    if (document.documentElement.classList.contains("reduced")) return;
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((el) => {
+        gsap.to(el, {
+          opacity: 1,
+          y: 0,
+          duration: 1.2,
+          ease: "expo.out",
+          delay: Number(el.dataset.delay ?? 0),
+          scrollTrigger: { trigger: el, start: "top 90%" },
+        });
+      });
+    });
+    const id = setTimeout(() => ScrollTrigger.refresh(), 400);
+    return () => {
+      clearTimeout(id);
+      ctx.revert();
+    };
+  }, [pathname]);
+
+  return null;
+}
