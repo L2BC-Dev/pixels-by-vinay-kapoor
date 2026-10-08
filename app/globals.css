@@ -115,8 +115,12 @@ html.lenis body {
   white-space: nowrap;
   user-select: none;
 }
+/* solid, high-contrast highlight for text over imagery */
+.text-blush {
+  color: #f59ac0;
+}
 .text-gradient {
-  background: linear-gradient(100deg, var(--rani), var(--saffron) 55%, var(--sindoor));
+  background: linear-gradient(100deg, #f0679f, var(--saffron) 70%, #ef8a4c);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;

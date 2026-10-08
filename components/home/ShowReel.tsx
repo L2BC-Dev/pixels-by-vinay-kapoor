@@ -1,6 +1,6 @@
-"use client";
+﻿"use client";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type { Shoot } from "@/content/shoots";
@@ -13,7 +13,8 @@ export default function ShowReel({ shoots }: { shoots: Shoot[] }) {
   const section = useRef<HTMLDivElement>(null);
   const track = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  // Layout effect so the pin is reverted before React detaches the DOM on route change.
+  useLayoutEffect(() => {
     if (matchMedia("(prefers-reduced-motion: reduce)").matches || innerWidth < 768) return;
     const ctx = gsap.context(() => {
       const t = track.current!;
@@ -37,6 +38,8 @@ export default function ShowReel({ shoots }: { shoots: Shoot[] }) {
   }, []);
 
   return (
+    // Extra wrapper: GSAP wraps the pinned <section> in a pin-spacer, so React must own a parent node it can remove.
+    <div>
     <section ref={section} className="relative overflow-hidden bg-ink py-24 md:flex md:h-screen md:items-center md:py-0">
       <div ref={track} className="flex flex-col gap-16 px-5 md:w-max md:flex-row md:items-center md:gap-[6vw] md:px-[8vw]">
         <div className="md:w-[34vw] md:shrink-0">
@@ -69,5 +72,6 @@ export default function ShowReel({ shoots }: { shoots: Shoot[] }) {
         </Link>
       </div>
     </section>
+    </div>
   );
 }

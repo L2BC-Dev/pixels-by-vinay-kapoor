@@ -1,6 +1,7 @@
-"use client";
+﻿"use client";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import type { Photo } from "@/content/shoots";
@@ -72,26 +73,38 @@ export default function Hero({ photos }: { photos: Photo[] }) {
         <div className="letterbox pointer-events-none absolute inset-x-0 top-0 h-[6vh] origin-top bg-ink" />
         <div className="letterbox pointer-events-none absolute inset-x-0 bottom-0 h-[6vh] origin-bottom bg-ink" />
 
-        <div ref={overlay} className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-5 text-center will-change-transform">
-          <div className="absolute left-1/2 top-1/2 -z-10 h-[70vh] w-[90vw] max-w-[1100px] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(closest-side,rgba(11,10,16,0.72),rgba(11,10,16,0.35)_60%,transparent)]" />
-          <p className="hero-in eyebrow mb-6 !text-cream/80">
-            <span className="font-deva text-sm normal-case tracking-normal text-rani">शुभ विवाह</span> · Faridabad · Est. by Vinay Kapoor
-          </p>
-          <div className="hero-logo relative h-[26vw] max-h-[300px] w-[78vw] max-w-[860px] md:h-[18vw]">
-            <Image src="/brand/logo.png" alt="Pixels by Vinay Kapoor" fill priority sizes="(max-width:768px) 78vw, 860px" className="object-contain drop-shadow-[0_0_40px_rgba(226,54,127,0.35)]" />
-          </div>
-          <h1 className="hero-in display mt-6 max-w-[18ch] text-[9vw] md:text-[4.6vw]">
-            Not your parents&apos; <em className="text-gradient">wedding photographers.</em>
-          </h1>
-        </div>
+        <div ref={overlay} className="pointer-events-none absolute inset-0 will-change-transform">
+          {/* legibility: dim the scene overall, then a soft ink plate behind the logo and a heavy fade under the headline */}
+          <div className="absolute inset-0 bg-ink/30" />
+          <div className="absolute left-1/2 top-[44%] h-[52vh] w-[80vw] max-w-[900px] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(closest-side,rgba(11,10,16,0.82),rgba(11,10,16,0.45)_55%,transparent)]" />
+          <div className="absolute inset-x-0 bottom-0 h-[55vh] bg-gradient-to-t from-ink via-ink/85 to-transparent" />
 
-        <div className="pointer-events-none absolute inset-x-0 bottom-[8vh] flex items-end justify-between px-5 font-mono text-[10px] uppercase tracking-[0.25em] text-cream/60 md:px-10">
-          <span className="hero-in">Luxury & intimate weddings</span>
-          <span className="hero-in flex flex-col items-center gap-2">
-            Scroll to enter
-            <span className="h-10 w-px animate-pulse bg-gradient-to-b from-rani to-transparent" />
-          </span>
-          <span className="hero-in">Films · Photographs · Reels</span>
+          {/* centre: the mark, alone, with room to breathe */}
+          <div className="absolute inset-x-0 top-[44%] flex -translate-y-1/2 justify-center px-5">
+            <div className="hero-logo relative h-[24vw] w-[64vw] max-h-[220px] max-w-[620px] md:h-[14vw]">
+              <Image src="/brand/logo.png" alt="Pixels by Vinay Kapoor" fill priority sizes="(max-width:768px) 64vw, 620px" className="object-contain drop-shadow-[0_2px_24px_rgba(11,10,16,0.9)]" />
+            </div>
+          </div>
+
+          {/* bottom: one clean statement + CTA */}
+          <div className="absolute inset-x-0 bottom-[9vh] mx-auto flex max-w-[1600px] flex-col gap-8 px-5 md:flex-row md:items-end md:justify-between md:px-10">
+            <div className="max-w-[640px]">
+              <p className="hero-in eyebrow !text-cream/75">Wedding films &amp; photographs · Faridabad</p>
+              <h1 className="hero-in display mt-4 text-[11vw] leading-[0.95] text-cream [text-shadow:0_2px_30px_rgba(11,10,16,0.8)] md:text-[4.4vw]">
+                Not your parents&apos;
+                <br />
+                <em className="text-blush">wedding photographers.</em>
+              </h1>
+            </div>
+            <div className="hero-in pointer-events-auto flex items-center gap-8">
+              <span className="hidden items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em] text-cream/60 md:flex">
+                <span className="h-px w-10 animate-pulse bg-cream/50" /> Scroll
+              </span>
+              <Link href="/book" data-cursor="Book" className="rounded-full bg-cream px-7 py-3.5 text-sm font-medium text-ink transition-colors hover:bg-rani hover:text-cream">
+                Check your dates →
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </section>

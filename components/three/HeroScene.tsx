@@ -169,10 +169,11 @@ type ArchLayer = {
 };
 
 const ARCH_LAYERS: ArchLayer[] = [
-  { radius: 0.03, radial: 6, intensity: 2.6, falloff: 1.2, hotness: 1, scale: 1 }, // core
-  { radius: 0.014, radial: 5, intensity: 1.4, falloff: 1.0, hotness: 1, scale: 0.935 }, // inner line
-  { radius: 0.2, radial: 10, intensity: 0.26, falloff: 2.6, hotness: 0, scale: 1 }, // halo
-  { radius: 0.55, radial: 12, intensity: 0.07, falloff: 3.2, hotness: 0, scale: 1 }, // atmosphere
+  // Toned down so the overlaid hero type stays legible (was 2.6 / 1.4 / 0.26 / 0.07).
+  { radius: 0.022, radial: 6, intensity: 1.15, falloff: 1.2, hotness: 1, scale: 1 }, // core
+  { radius: 0.01, radial: 5, intensity: 0.55, falloff: 1.0, hotness: 1, scale: 0.935 }, // inner line
+  { radius: 0.16, radial: 10, intensity: 0.08, falloff: 2.8, hotness: 0, scale: 1 }, // halo
+  { radius: 0.5, radial: 12, intensity: 0.018, falloff: 3.4, hotness: 0, scale: 1 }, // atmosphere
 ];
 
 function useArchGeometries() {
@@ -302,7 +303,8 @@ function makeSlots(count: number): Slot[] {
       continue;
     }
     const z = 6 - t * 22; // from in front of the camera's first arch to deep in the corridor
-    const spread = 2.5 + rand(i * 7 + 1) * 1.5;
+    // widen deeper photos so perspective doesn't pull them into the centre (where the logo sits)
+    const spread = (2.5 + rand(i * 7 + 1) * 1.5) * (1 + Math.max(0, -z) * 0.07);
     slots.push({
       x: side * spread,
       y: -0.9 + rand(i * 13 + 2) * 2.4,
@@ -502,7 +504,7 @@ function BackGlow() {
         uniforms: {
           uColorA: { value: new THREE.Color(RANI) },
           uColorB: { value: new THREE.Color(SINDOOR) },
-          uIntensity: { value: 0.55 },
+          uIntensity: { value: 0.28 },
         },
         transparent: true,
         blending: THREE.AdditiveBlending,

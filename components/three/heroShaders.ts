@@ -145,7 +145,7 @@ export const archFragment = /* glsl */ `
     float shaped = pow(facing, uFalloff);
     // slow candle-like breathing
     float breathe = 0.92 + 0.08 * sin(uTime * 1.3 + vWorldPos.y * 0.8) * sin(uTime * 0.37);
-    col = mix(col, uHot, pow(facing, 7.0) * uHotness * 0.55);
+    col = mix(col, uHot, pow(facing, 7.0) * uHotness * 0.3);
     col *= shaped * uIntensity * breathe;
     col *= 1.0 - fogFactor(vDepth);
     gl_FragColor = vec4(col, 1.0);
