@@ -656,6 +656,7 @@ function Scene({
 export default function HeroScene(props: {
   images: string[];
   progress: React.MutableRefObject<number>;
+  active?: boolean; // false pauses rendering (scrolled offscreen)
 }) {
   const { images, progress } = props;
   const [petalCount] = React.useState(() =>
@@ -667,7 +668,7 @@ export default function HeroScene(props: {
       style={{ width: "100%", height: "100%", display: "block", background: INK }}
       dpr={[1, 1.75]}
       flat
-      frameloop="always"
+      frameloop={props.active === false ? "never" : "always"}
       camera={{ fov: 42, near: 0.1, far: 80, position: [0, 0.45, CAM_START_Z] }}
       gl={{ antialias: true, alpha: false, powerPreference: "high-performance" }}
     >

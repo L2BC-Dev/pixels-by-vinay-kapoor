@@ -2,12 +2,14 @@
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { useInView } from "@/components/three/useInView";
 
 const LensScene = dynamic(() => import("@/components/three/LensScene"), { ssr: false });
 
 export default function LensHero({ portrait, name, role }: { portrait: string; name: string; role: string }) {
   const wrap = useRef<HTMLDivElement>(null);
   const progress = useRef(0);
+  const inView = useInView(wrap);
   const [ok, setOk] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -41,7 +43,7 @@ export default function LensHero({ portrait, name, role }: { portrait: string; n
         </div>
         <div className="absolute inset-0 md:relative">
           {ok ? (
-            <LensScene portrait={portrait} progress={progress} />
+            <LensScene portrait={portrait} progress={progress} active={inView} />
           ) : ok === false ? (
             <div className="jharokha relative mx-auto mt-32 aspect-[3/4] w-[70%] overflow-hidden opacity-60 md:opacity-100">
               <Image src={portrait} alt={name} fill sizes="50vw" className="object-cover" />

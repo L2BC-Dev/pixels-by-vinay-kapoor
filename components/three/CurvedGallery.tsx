@@ -155,9 +155,9 @@ function Ring({ items, onFocus }: { items: GalleryItem[]; onFocus: (i: number) =
   );
 }
 
-export default function CurvedGallery({ items, onFocus }: { items: GalleryItem[]; onFocus: (i: number) => void }) {
+export default function CurvedGallery({ items, onFocus, active = true }: { items: GalleryItem[]; onFocus: (i: number) => void; active?: boolean }) {
   return (
-    <Canvas camera={{ position: [0, 0, 0], fov: 55, near: 0.1, far: 60 }} dpr={[1, 1.75]} gl={{ antialias: true }}>
+    <Canvas camera={{ position: [0, 0, 0], fov: 55, near: 0.1, far: 60 }} dpr={[1, 1.75]} gl={{ antialias: true }} frameloop={active ? "always" : "never"}>
       <color attach="background" args={["#0B0A10"]} />
       <fog attach="fog" args={["#0B0A10", 4, 14]} />
       <Suspense fallback={null}>

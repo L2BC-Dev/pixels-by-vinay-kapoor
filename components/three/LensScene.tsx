@@ -106,9 +106,9 @@ function Lens({ portrait, progress }: { portrait: string; progress: React.Mutabl
   );
 }
 
-export default function LensScene({ portrait, progress }: { portrait: string; progress: React.MutableRefObject<number> }) {
+export default function LensScene({ portrait, progress, active = true }: { portrait: string; progress: React.MutableRefObject<number>; active?: boolean }) {
   return (
-    <Canvas camera={{ position: [0, 0, 5.2], fov: 40 }} dpr={[1, 1.75]} gl={{ antialias: true, alpha: true }}>
+    <Canvas camera={{ position: [0, 0, 5.2], fov: 40 }} dpr={[1, 1.75]} gl={{ antialias: true, alpha: true }} frameloop={active ? "always" : "never"}>
       <ambientLight intensity={0.9} />
       <directionalLight position={[3, 4, 5]} intensity={2} color="#efe4d8" />
       <pointLight position={[-3, -2, 2]} intensity={14} color="#E2367F" />

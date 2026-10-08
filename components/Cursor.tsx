@@ -35,7 +35,7 @@ export default function Cursor() {
 
   const size = label ? 92 : active ? 48 : 26;
   return (
-    <div ref={ref} aria-hidden className="pointer-events-none fixed left-0 top-0 z-[70] opacity-0 mix-blend-difference">
+    <div ref={ref} aria-hidden className="pointer-events-none fixed left-0 top-0 z-[70] opacity-0 drop-shadow-[0_0_2px_rgba(11,10,16,0.9)]">
       <div
         className="relative -translate-x-1/2 -translate-y-1/2 transition-[width,height] duration-300 ease-out"
         style={{ width: size, height: size }}

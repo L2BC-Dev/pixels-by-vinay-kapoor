@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import type { Photo } from "@/content/shoots";
+import { useInView } from "@/components/three/useInView";
 
 const HeroScene = dynamic(() => import("@/components/three/HeroScene"), { ssr: false, loading: () => null });
 
@@ -21,6 +22,7 @@ export default function Hero({ photos }: { photos: Photo[] }) {
   const wrap = useRef<HTMLDivElement>(null);
   const overlay = useRef<HTMLDivElement>(null);
   const progress = useRef(0);
+  const inView = useInView(wrap);
   const [mode, setMode] = useState<"pending" | "3d" | "static">("pending");
 
   useEffect(() => {
@@ -59,7 +61,7 @@ export default function Hero({ photos }: { photos: Photo[] }) {
     <section ref={wrap} className="relative h-[280vh]" aria-label="Pixels by Vinay Kapoor">
       <div className="sticky top-0 h-[100svh] w-full overflow-hidden">
         {mode === "3d" ? (
-          <HeroScene images={photos.map((p) => p.sm)} progress={progress} />
+          <HeroScene images={photos.map((p) => p.sm)} progress={progress} active={inView} />
         ) : (
           <div className="absolute inset-0">
             {photos[0] && (
